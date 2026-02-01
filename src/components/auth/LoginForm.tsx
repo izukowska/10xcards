@@ -55,17 +55,17 @@ export const LoginForm = () => {
   }
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4" data-testid="login-form-container">
       {error && (
-        <Alert variant="destructive">
+        <Alert variant="destructive" data-testid="login-error-alert">
           <AlertCircle className="h-4 w-4" />
           <AlertTitle>Błąd</AlertTitle>
-          <AlertDescription>{error}</AlertDescription>
+          <AlertDescription data-testid="login-error-message">{error}</AlertDescription>
         </Alert>
       )}
 
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4" data-testid="login-form">
           <FormField
             control={form.control}
             name="email"
@@ -73,9 +73,13 @@ export const LoginForm = () => {
               <FormItem>
                 <FormLabel>Email</FormLabel>
                 <FormControl>
-                  <Input placeholder="imie@przyklad.com" {...field} />
+                  <Input 
+                    placeholder="imie@przyklad.com" 
+                    {...field} 
+                    data-testid="login-email-input"
+                  />
                 </FormControl>
-                <FormMessage />
+                <FormMessage data-testid="login-email-error" />
               </FormItem>
             )}
           />
@@ -86,14 +90,24 @@ export const LoginForm = () => {
               <FormItem>
                 <FormLabel>Hasło</FormLabel>
                 <FormControl>
-                  <Input type="password" placeholder="••••••••" {...field} />
+                  <Input 
+                    type="password" 
+                    placeholder="••••••••" 
+                    {...field} 
+                    data-testid="login-password-input"
+                  />
                 </FormControl>
-                <FormMessage />
+                <FormMessage data-testid="login-password-error" />
               </FormItem>
             )}
           />
-          <Button type="submit" className="w-full" disabled={isLoading}>
-            {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+          <Button 
+            type="submit" 
+            className="w-full" 
+            disabled={isLoading}
+            data-testid="login-submit-button"
+          >
+            {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" data-testid="login-loading-spinner" />}
             Zaloguj się
           </Button>
         </form>
@@ -101,12 +115,20 @@ export const LoginForm = () => {
       
       <div className="text-center text-sm">
         Nie masz konta?{" "}
-        <a href="/register" className="text-blue-600 hover:underline">
+        <a 
+          href="/register" 
+          className="text-green-600 hover:underline"
+          data-testid="login-register-link"
+        >
           Zarejestruj się
         </a>
       </div>
       <div className="text-center text-sm">
-        <a href="/forgot-password" className="text-gray-500 hover:underline">
+        <a 
+          href="/forgot-password" 
+          className="text-gray-500 hover:underline"
+          data-testid="login-forgot-password-link"
+        >
           Zapomniałeś hasła?
         </a>
       </div>

@@ -1,0 +1,10 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { FlashcardsList } from "../components/FlashcardsList";
+---
+
+<Layout title="Moje fiszki - 10x Cards">
+  <div class="container mx-auto px-4 py-8">
+    <FlashcardsList client:load />
+  </div>
+</Layout>

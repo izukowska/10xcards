@@ -147,11 +147,19 @@ spy.mockRestore();
 
 ```
 e2e/
+├── auth/
+│   ├── login.spec.ts         # Testy logowania
+│   └── register.spec.ts      # Testy rejestracji
 ├── fixtures/
-│   └── auth.fixture.ts       # Page Object Models
-├── helpers.ts                # Pomocnicze funkcje E2E
+│   └── auth.fixture.ts       # Custom fixtures z autentykacją
+├── pages/
+│   ├── HomePage.ts           # Page Object Model - strona główna
+│   ├── LoginPage.ts          # Page Object Model - logowanie
+│   ├── RegisterPage.ts       # Page Object Model - rejestracja
+│   └── index.ts              # Eksport wszystkich POM
 ├── example.spec.ts           # Przykładowe testy
-└── tsconfig.json             # Konfiguracja TypeScript
+├── README.md                 # Dokumentacja testów E2E
+└── .gitignore                # Ignorowane pliki testów
 ```
 
 ### Konfiguracja
@@ -161,6 +169,18 @@ Plik `playwright.config.ts` zawiera:
 - Automatyczne uruchamianie dev servera
 - Ustawienia retry i timeout
 - Konfigurację raportów i artefaktów
+
+### Zmienne środowiskowe
+
+Utwórz plik `.env.test` w głównym katalogu projektu:
+
+```env
+E2E_EMAIL=test@example.com
+E2E_PASSWORD=Abcd1234!
+PLAYWRIGHT_TEST_BASE_URL=http://localhost:4321
+```
+
+**Uwaga:** Plik `.env.test` jest w `.gitignore` i nie powinien być commitowany.
 
 ### Przykłady użycia
 
@@ -202,12 +222,27 @@ test('should submit login form', async ({ page }) => {
 #### Test z Page Object Model
 
 ```typescript
-import { test, expect } from './fixtures/auth.fixture';
+import { test, expect } from '@playwright/test';
+import { LoginPage } from '../pages';
 
-test('should login successfully', async ({ authPage }) => {
-  await authPage.goto();
-  await authPage.login('test@example.com', 'password');
-  // ... asercje
+test('should login successfully', async ({ page }) => {
+  const loginPage = new LoginPage(page);
+  await loginPage.goto();
+  await loginPage.login('test@example.com', 'password');
+  await loginPage.waitForSuccessfulLogin();
+  await expect(page).toHaveURL(/.*generate/);
+});
+```
+
+#### Test z custom fixture (authenticated context)
+
+```typescript
+import { test, expect } from '../fixtures/auth.fixture';
+
+test('should access protected route', async ({ authenticatedPage }) => {
+  // authenticatedPage jest już zalogowany
+  await authenticatedPage.goto('/generate');
+  await expect(authenticatedPage).toHaveURL(/.*generate/);
 });
 ```
 
@@ -264,6 +299,12 @@ npm run test:e2e:debug
 
 # Wygeneruj testy za pomocą codegen
 npm run test:e2e:codegen
+
+# Uruchom tylko testy logowania
+npx playwright test auth/login
+
+# Uruchom tylko testy rejestracji
+npx playwright test auth/register
 ```
 
 ### Filtrowanie testów
@@ -366,13 +407,15 @@ describe('DatabaseTests', () => {
 ### Playwright
 
 1. **Use Page Object Model** - dla wielokrotnie używanych interakcji
-2. **Use specific locators** - role, text, data-testid (w tej kolejności)
+2. **Use data-test-id attributes** - stabilne selektory zamiast CSS/XPath
 3. **Wait for network idle** - `await page.waitForLoadState('networkidle')`
 4. **Test from user perspective** - używaj interakcji jak prawdziwy użytkownik
 5. **Isolate tests** - każdy test w czystym kontekście
-6. **Use fixtures** - dla reusable setup code
+6. **Use fixtures** - dla reusable setup code (np. authenticated context)
 7. **Visual regression carefully** - tylko dla krytycznych widoków
 8. **Debug with trace viewer** - `npx playwright show-trace trace.zip`
+9. **Test responsive design** - różne viewporty (mobile, tablet, desktop)
+10. **Test keyboard navigation** - Tab, Enter, Escape dla accessibility
 
 ### Ogólne
 

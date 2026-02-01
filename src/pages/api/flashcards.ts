@@ -1,6 +1,6 @@
 import type { APIRoute } from "astro";
 import { z } from "zod";
-import type { FlashcardCreateCommand, FlashcardDto } from "../../types";
+import type { FlashcardCreateCommand, FlashcardDto, FlashcardListResponseDto } from "../../types";
 import { createFlashcards } from "../../lib/services/flashcard.service";
 
 export const prerender = false;
@@ -54,6 +54,129 @@ const flashcardCreateCommandSchema = z.object({
     .min(1, { message: "At least one flashcard must be provided" })
     .max(100, { message: "Cannot create more than 100 flashcards at once" }),
 });
+
+/**
+ * GET /api/flashcards
+ *
+ * Retrieves a paginated list of flashcards for the authenticated user.
+ *
+ * Query Parameters:
+ * - page: number (default: 1)
+ * - limit: number (default: 20, max: 100)
+ * - sort: "created_at" | "updated_at" (default: "created_at")
+ * - order: "asc" | "desc" (default: "desc")
+ *
+ * Response (200):
+ * {
+ *   "data": FlashcardDto[],
+ *   "pagination": {
+ *     "page": number,
+ *     "limit": number,
+ *     "total": number
+ *   }
+ * }
+ *
+ * Error Responses:
+ * - 401: Unauthorized
+ * - 500: Internal server error
+ */
+export const GET: APIRoute = async ({ url, locals }) => {
+  try {
+    // Step 1: Authentication check
+    const { user, supabase } = locals;
+    
+    if (!user) {
+      return new Response(
+        JSON.stringify({
+          error: "Unauthorized",
+          message: "You must be logged in to view flashcards",
+        }),
+        {
+          status: 401,
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+    }
+
+    // Step 2: Parse query parameters with defaults
+    const page = parseInt(url.searchParams.get("page") || "1", 10);
+    const limit = Math.min(parseInt(url.searchParams.get("limit") || "20", 10), 100);
+    const sort = url.searchParams.get("sort") === "updated_at" ? "updated_at" : "created_at";
+    const order = url.searchParams.get("order") === "asc" ? true : false;
+
+    // Validate pagination parameters
+    if (page < 1 || limit < 1) {
+      return new Response(
+        JSON.stringify({
+          error: "Invalid parameters",
+          message: "Page and limit must be positive numbers",
+        }),
+        {
+          status: 400,
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+    }
+
+    // Step 3: Get total count for pagination
+    const { count, error: countError } = await supabase
+      .from("flashcards")
+      .select("*", { count: "exact", head: true })
+      .eq("user_id", user.id);
+
+    if (countError) {
+      throw new Error(`Failed to count flashcards: ${countError.message}`);
+    }
+
+    const total = count || 0;
+
+    // Step 4: Fetch flashcards with pagination
+    const from = (page - 1) * limit;
+    const to = from + limit - 1;
+
+    const { data: flashcards, error: fetchError } = await supabase
+      .from("flashcards")
+      .select("id, front, back, source, generation_id, created_at, updated_at")
+      .eq("user_id", user.id)
+      .order(sort, { ascending: order })
+      .range(from, to);
+
+    if (fetchError) {
+      throw new Error(`Failed to fetch flashcards: ${fetchError.message}`);
+    }
+
+    // Step 5: Return paginated response
+    const response: FlashcardListResponseDto = {
+      data: flashcards || [],
+      pagination: {
+        page,
+        limit,
+        total,
+      },
+    };
+
+    return new Response(JSON.stringify(response), {
+      status: 200,
+      headers: { "Content-Type": "application/json" },
+    });
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.error("Error fetching flashcards:", error);
+
+    const errorMessage = error instanceof Error ? error.message : "An unexpected error occurred while fetching flashcards";
+
+    return new Response(
+      JSON.stringify({
+        error: "Internal server error",
+        message: errorMessage,
+      }),
+      {
+        status: 500,
+        headers: { "Content-Type": "application/json" },
+      }
+    );
+  }
+};
 
 /**
  * POST /api/flashcards

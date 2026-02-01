@@ -109,19 +109,30 @@ export function ProposalCard({
           </Button>
         ) : (
           <>
-            {proposal.decision !== "accepted" && proposal.decision !== "edited" && (
-              <Button onClick={onAccept} size="sm">
-                Akceptuj
-              </Button>
+            {proposal.decision === "pending" ? (
+              <>
+                <Button onClick={onAccept} size="sm">
+                  Akceptuj
+                </Button>
+                <Button onClick={onReject} variant="destructive" size="sm">
+                  Odrzuć
+                </Button>
+                <Button onClick={onEdit} variant="outline" size="sm">
+                  Edytuj
+                </Button>
+              </>
+            ) : (
+              <>
+                {(proposal.decision === "accepted" || proposal.decision === "edited") && (
+                  <Button onClick={onReject} variant="destructive" size="sm">
+                    Odrzuć
+                  </Button>
+                )}
+                <Button onClick={onEdit} variant="outline" size="sm">
+                  Edytuj
+                </Button>
+              </>
             )}
-            {(proposal.decision === "accepted" || proposal.decision === "edited") && (
-              <Button onClick={onReject} variant="outline" size="sm">
-                Odrzuć
-              </Button>
-            )}
-            <Button onClick={onEdit} variant="outline" size="sm">
-              Edytuj
-            </Button>
           </>
         )}
       </CardFooter>

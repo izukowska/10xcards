@@ -57,33 +57,33 @@ export const RegisterForm = () => {
 
   if (success) {
     return (
-      <div className="space-y-4 text-center">
+      <div className="space-y-4 text-center" data-testid="register-success-message">
         <div className="flex justify-center">
-          <CheckCircle className="h-12 w-12 text-green-500" />
+          <CheckCircle className="h-12 w-12 text-green-500" data-testid="register-success-icon" />
         </div>
         <h3 className="text-lg font-medium">Rejestracja pomyślna!</h3>
         <p className="text-sm text-gray-500">
           Sprawdź swoją skrzynkę email, aby potwierdzić konto.
         </p>
         <Button asChild className="w-full mt-4">
-          <a href="/login">Wróć do logowania</a>
+          <a href="/login" data-testid="register-success-login-link">Wróć do logowania</a>
         </Button>
       </div>
     );
   }
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4" data-testid="register-form-container">
       {error && (
-        <Alert variant="destructive">
+        <Alert variant="destructive" data-testid="register-error-alert">
           <AlertCircle className="h-4 w-4" />
           <AlertTitle>Błąd</AlertTitle>
-          <AlertDescription>{error}</AlertDescription>
+          <AlertDescription data-testid="register-error-message">{error}</AlertDescription>
         </Alert>
       )}
 
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4" data-testid="register-form">
           <FormField
             control={form.control}
             name="email"
@@ -91,9 +91,13 @@ export const RegisterForm = () => {
               <FormItem>
                 <FormLabel>Email</FormLabel>
                 <FormControl>
-                  <Input placeholder="imie@przyklad.com" {...field} />
+                  <Input 
+                    placeholder="imie@przyklad.com" 
+                    {...field} 
+                    data-testid="register-email-input"
+                  />
                 </FormControl>
-                <FormMessage />
+                <FormMessage data-testid="register-email-error" />
               </FormItem>
             )}
           />
@@ -104,9 +108,14 @@ export const RegisterForm = () => {
               <FormItem>
                 <FormLabel>Hasło</FormLabel>
                 <FormControl>
-                  <Input type="password" placeholder="••••••••" {...field} />
+                  <Input 
+                    type="password" 
+                    placeholder="••••••••" 
+                    {...field} 
+                    data-testid="register-password-input"
+                  />
                 </FormControl>
-                <FormMessage />
+                <FormMessage data-testid="register-password-error" />
               </FormItem>
             )}
           />
@@ -117,14 +126,24 @@ export const RegisterForm = () => {
               <FormItem>
                 <FormLabel>Potwierdź hasło</FormLabel>
                 <FormControl>
-                  <Input type="password" placeholder="••••••••" {...field} />
+                  <Input 
+                    type="password" 
+                    placeholder="••••••••" 
+                    {...field} 
+                    data-testid="register-confirm-password-input"
+                  />
                 </FormControl>
-                <FormMessage />
+                <FormMessage data-testid="register-confirm-password-error" />
               </FormItem>
             )}
           />
-          <Button type="submit" className="w-full" disabled={isLoading}>
-            {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+          <Button 
+            type="submit" 
+            className="w-full" 
+            disabled={isLoading}
+            data-testid="register-submit-button"
+          >
+            {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" data-testid="register-loading-spinner" />}
             Zarejestruj się
           </Button>
         </form>
@@ -132,7 +151,11 @@ export const RegisterForm = () => {
       
       <div className="text-center text-sm">
         Masz już konto?{" "}
-        <a href="/login" className="text-blue-600 hover:underline">
+        <a 
+          href="/login" 
+          className="text-blue-600 hover:underline"
+          data-testid="register-login-link"
+        >
           Zaloguj się
         </a>
       </div>

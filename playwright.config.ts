@@ -1,10 +1,25 @@
 import { defineConfig, devices } from '@playwright/test';
+import * as dotenv from 'dotenv';
+import { fileURLToPath } from 'url';
+import { dirname, resolve } from 'path';
+
+// Get __dirname equivalent in ES modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+// Load environment variables - .env.test has priority for tests
+// First load .env.test, then .env only for missing variables
+dotenv.config({ path: resolve(__dirname, '.env.test') });
+dotenv.config({ path: resolve(__dirname, '.env'), override: false });
 
 /**
  * Playwright E2E Test Configuration
  * See https://playwright.dev/docs/test-configuration
  */
 export default defineConfig({
+  // Global setup - runs once before all tests
+  globalSetup: './e2e/global-setup.ts',
+  
   // Test directory
   testDir: './e2e',
   
@@ -39,6 +54,11 @@ export default defineConfig({
     
     // Video on failure
     video: 'retain-on-failure',
+    
+    // Pass environment variables to the browser context
+    contextOptions: {
+      // This won't work for client-side env vars, but worth trying
+    },
   },
 
   // Configure projects for major browsers - using only Chromium as per guidelines

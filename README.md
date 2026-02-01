@@ -1,192 +1,241 @@
-# Supabase CLI
+# 10x-cards 🎴
 
-[![Coverage Status](https://coveralls.io/repos/github/supabase/cli/badge.svg?branch=main)](https://coveralls.io/github/supabase/cli?branch=main) [![Bitbucket Pipelines](https://img.shields.io/bitbucket/pipelines/supabase-cli/setup-cli/master?style=flat-square&label=Bitbucket%20Canary)](https://bitbucket.org/supabase-cli/setup-cli/pipelines) [![Gitlab Pipeline Status](https://img.shields.io/gitlab/pipeline-status/sweatybridge%2Fsetup-cli?label=Gitlab%20Canary)
-](https://gitlab.com/sweatybridge/setup-cli/-/pipelines)
+AI-powered flashcards application built with Astro, React, and Supabase.
 
-[Supabase](https://supabase.io) is an open source Firebase alternative. We're building the features of Firebase using enterprise-grade open source tools.
+## 🚀 Tech Stack
 
-This repository contains all the functionality for Supabase CLI.
+- **Astro 5** - Web framework
+- **TypeScript 5** - Type safety
+- **React 19** - UI components
+- **Tailwind 4** - Styling
+- **Shadcn/ui** - Component library
+- **Supabase** - Backend & Authentication
+- **OpenRouter** - AI generation
 
-- [x] Running Supabase locally
-- [x] Managing database migrations
-- [x] Creating and deploying Supabase Functions
-- [x] Generating types directly from your database schema
-- [x] Making authenticated HTTP requests to [Management API](https://supabase.com/docs/reference/api/introduction)
+## 📋 Prerequisites
 
-## Getting started
+- Node.js 18+ 
+- npm or yarn
+- Supabase account (local or cloud)
+- OpenRouter API key (for AI features)
 
-### Install the CLI
+## 🛠️ Setup
 
-Available via [NPM](https://www.npmjs.com) as dev dependency. To install:
-
-```bash
-npm i supabase --save-dev
-```
-
-When installing with yarn 4, you need to disable experimental fetch with the following nodejs config.
-
-```
-NODE_OPTIONS=--no-experimental-fetch yarn add supabase
-```
-
-> **Note**
-> For Bun versions below v1.0.17, you must add `supabase` as a [trusted dependency](https://bun.sh/guides/install/trusted) before running `bun add -D supabase`.
-
-<details>
-  <summary><b>macOS</b></summary>
-
-Available via [Homebrew](https://brew.sh). To install:
-
-```sh
-brew install supabase/tap/supabase
-```
-
-To install the beta release channel:
-
-```sh
-brew install supabase/tap/supabase-beta
-brew link --overwrite supabase-beta
-```
-
-To upgrade:
-
-```sh
-brew upgrade supabase
-```
-
-</details>
-
-<details>
-  <summary><b>Windows</b></summary>
-
-Available via [Scoop](https://scoop.sh). To install:
-
-```powershell
-scoop bucket add supabase https://github.com/supabase/scoop-bucket.git
-scoop install supabase
-```
-
-To upgrade:
-
-```powershell
-scoop update supabase
-```
-
-</details>
-
-<details>
-  <summary><b>Linux</b></summary>
-
-Available via [Homebrew](https://brew.sh) and Linux packages.
-
-#### via Homebrew
-
-To install:
-
-```sh
-brew install supabase/tap/supabase
-```
-
-To upgrade:
-
-```sh
-brew upgrade supabase
-```
-
-#### via Linux packages
-
-Linux packages are provided in [Releases](https://github.com/supabase/cli/releases). To install, download the `.apk`/`.deb`/`.rpm`/`.pkg.tar.zst` file depending on your package manager and run the respective commands.
-
-```sh
-sudo apk add --allow-untrusted <...>.apk
-```
-
-```sh
-sudo dpkg -i <...>.deb
-```
-
-```sh
-sudo rpm -i <...>.rpm
-```
-
-```sh
-sudo pacman -U <...>.pkg.tar.zst
-```
-
-</details>
-
-<details>
-  <summary><b>Other Platforms</b></summary>
-
-You can also install the CLI via [go modules](https://go.dev/ref/mod#go-install) without the help of package managers.
-
-```sh
-go install github.com/supabase/cli@latest
-```
-
-Add a symlink to the binary in `$PATH` for easier access:
-
-```sh
-ln -s "$(go env GOPATH)/bin/cli" /usr/bin/supabase
-```
-
-This works on other non-standard Linux distros.
-
-</details>
-
-<details>
-  <summary><b>Community Maintained Packages</b></summary>
-
-Available via [pkgx](https://pkgx.sh/). Package script [here](https://github.com/pkgxdev/pantry/blob/main/projects/supabase.com/cli/package.yml).
-To install in your working directory:
+### 1. Clone & Install
 
 ```bash
-pkgx install supabase
+git clone <repository-url>
+cd 10xcards
+npm install
 ```
 
-Available via [Nixpkgs](https://nixos.org/). Package script [here](https://github.com/NixOS/nixpkgs/blob/master/pkgs/development/tools/supabase-cli/default.nix).
+### 2. Configure Environment Variables
 
-</details>
-
-### Run the CLI
+Create `.env` file for local development:
 
 ```bash
-supabase bootstrap
+cp .env.example .env
 ```
 
-Or using npx:
+Edit `.env` with your credentials:
 
 ```bash
-npx supabase bootstrap
+PUBLIC_SUPABASE_URL=http://127.0.0.1:54321
+PUBLIC_SUPABASE_ANON_KEY=your-local-anon-key
+OPENROUTER_API_KEY=your-openrouter-api-key
 ```
 
-The bootstrap command will guide you through the process of setting up a Supabase project using one of the [starter](https://github.com/supabase-community/supabase-samples/blob/main/samples.json) templates.
+For E2E tests, create `.env.test`:
 
-## Docs
-
-Command & config reference can be found [here](https://supabase.com/docs/reference/cli/about).
-
-## Testing
-
-### Unit tests
-
-We use Vitest for unit tests.
-
-### E2E tests
-
-We use Playwright for end-to-end tests.
-
-## Breaking changes
-
-We follow semantic versioning for changes that directly impact CLI commands, flags, and configurations.
-
-However, due to dependencies on other service images, we cannot guarantee that schema migrations, seed.sql, and generated types will always work for the same CLI major version. If you need such guarantees, we encourage you to pin a specific version of CLI in package.json.
-
-## Developing
-
-To run from source:
-
-```sh
-# Go >= 1.22
-go run . help
+```bash
+cp .env.test.example .env.test
 ```
+
+Edit `.env.test` with your cloud Supabase credentials:
+
+```bash
+PUBLIC_SUPABASE_URL=https://your-project.supabase.co
+PUBLIC_SUPABASE_ANON_KEY=your-cloud-anon-key
+E2E_EMAIL=test@example.com
+E2E_PASSWORD=YourStrongPassword123!
+```
+
+📚 **See [e2e/ENV_GUIDE.md](e2e/ENV_GUIDE.md) for detailed environment setup**
+
+### 3. Start Local Supabase (Optional)
+
+```bash
+npx supabase start
+```
+
+### 4. Run Development Server
+
+```bash
+npm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) (or port shown in terminal)
+
+## 📜 Available Scripts
+
+### Development
+
+```bash
+npm run dev          # Start dev server
+npm run build        # Build for production
+npm run preview      # Preview production build
+```
+
+### Code Quality
+
+```bash
+npm run lint         # Run ESLint
+npm run lint:fix     # Fix ESLint errors
+npm run format       # Format with Prettier
+```
+
+### Testing
+
+```bash
+# Unit Tests (Vitest)
+npm run test              # Run unit tests
+npm run test:watch        # Watch mode
+npm run test:ui           # Vitest UI
+npm run test:coverage     # Coverage report
+
+# E2E Tests (Playwright)
+npm run test:e2e          # Run E2E tests
+npm run test:e2e:ui       # Playwright UI
+npm run test:e2e:debug    # Debug mode
+npm run test:e2e:codegen  # Generate tests
+```
+
+📚 **See [TESTING.md](TESTING.md) for testing guidelines**
+
+## 🏗️ Project Structure
+
+```
+10xcards/
+├── src/
+│   ├── layouts/          # Astro layouts
+│   ├── pages/            # Astro pages & API routes
+│   │   └── api/         # API endpoints
+│   ├── components/       # React & Astro components
+│   │   └── ui/          # Shadcn/ui components
+│   ├── lib/             # Services & helpers
+│   ├── db/              # Supabase clients
+│   ├── types.ts         # Shared types
+│   └── middleware/      # Astro middleware
+├── e2e/                 # E2E tests (Playwright)
+│   ├── auth/           # Authentication tests
+│   ├── pages/          # Page Object Models
+│   └── fixtures/       # Test fixtures
+├── public/              # Static assets
+└── supabase/           # Supabase migrations & config
+```
+
+## 🧪 Testing
+
+This project uses **two testing frameworks**:
+
+### Unit Tests (Vitest)
+- Fast, isolated component/function tests
+- Run during development
+- See `TESTING.md` for guidelines
+
+### E2E Tests (Playwright)
+- Full user flow testing
+- Runs against real browser
+- Uses cloud Supabase (via `.env.test`)
+- See `e2e/README.md` for details
+
+### Environment Separation
+
+- **`.env`** → Local development (local Supabase)
+- **`.env.test`** → E2E tests (cloud Supabase)
+
+When running E2E tests, `.env.test` takes priority. This allows you to:
+- ✅ Develop locally with local database
+- ✅ Test with cloud database automatically
+- ✅ No manual switching needed
+
+## 🔐 Authentication
+
+The app uses **Supabase Auth** with:
+- Email/password registration
+- Email confirmation (configurable)
+- Protected routes via middleware
+- Session management
+
+Test user credentials are configured in `.env.test`.
+
+## 🎨 Styling
+
+- **Tailwind CSS 4** for utility-first styling
+- **Shadcn/ui** for pre-built components
+- Dark mode support built-in
+- Responsive design
+
+## 🚢 Deployment
+
+### Build
+
+```bash
+npm run build
+```
+
+### Deploy to Vercel/Netlify/etc.
+
+Set environment variables in your hosting platform:
+- `PUBLIC_SUPABASE_URL`
+- `PUBLIC_SUPABASE_ANON_KEY`
+- `OPENROUTER_API_KEY`
+
+## 📚 Documentation
+
+- [TESTING.md](TESTING.md) - Testing guidelines
+- [e2e/README.md](e2e/README.md) - E2E test documentation
+- [e2e/ENV_GUIDE.md](e2e/ENV_GUIDE.md) - Environment variables guide
+- [.cursor/rules/](..cursor/rules/) - AI assistant rules
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit changes (`git commit -m 'Add amazing feature'`)
+4. Push to branch (`git push origin feature/amazing-feature`)
+5. Open Pull Request
+
+### Code Standards
+
+- Follow existing code style
+- Run linter before committing (`npm run lint:fix`)
+- Write tests for new features
+- Update documentation as needed
+
+## 📄 License
+
+[Your License Here]
+
+## 🐛 Known Issues
+
+None currently. Please report issues via GitHub Issues.
+
+## 💡 Tips
+
+- Use `npm run test:watch` during development
+- Use `npm run test:e2e:ui` to debug E2E tests visually
+- Check `e2e/ENV_GUIDE.md` if tests fail with connection errors
+- Local Supabase: `npx supabase start` (port 54321)
+- Dev server: Usually port 3000 or 4321
+
+## 📞 Support
+
+For questions or issues:
+1. Check existing documentation
+2. Search closed issues
+3. Open new issue with details
+
+---
+
+**Happy coding! 🚀**
