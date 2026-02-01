@@ -69,7 +69,7 @@ jobs:
         id: coverage
         run: |
           if [ -f coverage/coverage-summary.json ]; then
-            COVERAGE=$(cat coverage/coverage-summary.json | grep -o '"lines":{"total":[0-9]*,"covered":[0-9]*,"skipped":[0-9]*,"pct":[0-9.]*' | grep -o '"pct":[0-9.]*' | cut -d':' -f2)
+            COVERAGE=$(node -e "const data=require('./coverage/coverage-summary.json'); const pct=data.total.lines.pct; console.log(typeof pct === 'number' ? pct : pct === 'Unknown' ? 'N/A' : pct);")
             echo "percentage=$COVERAGE" >> $GITHUB_OUTPUT
           else
             echo "percentage=N/A" >> $GITHUB_OUTPUT
@@ -108,7 +108,7 @@ jobs:
             |-------|--------|
             | 🔍 Linting | ${statusEmoji(lintStatus)} ${lintStatus} |
             | 🧪 Unit Tests | ${statusEmoji(testStatus)} ${testStatus} |
-            | 📊 Coverage | ${coverage}% |
+            | 📊 Coverage | ${coverage === 'N/A' ? coverage : coverage + '%'} |
             
             ---
             *Workflow run: [#${{ github.run_number }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})*`;
