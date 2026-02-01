@@ -1,15 +1,17 @@
 ---
 import "../styles/global.css";
+import { Button } from "@/components/ui/button";
 
 interface Props {
   title?: string;
 }
 
 const { title = "10x Astro Starter" } = Astro.props;
+const { user } = Astro.locals;
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" class="dark">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
@@ -18,7 +20,30 @@ const { title = "10x Astro Starter" } = Astro.props;
     <title>{title}</title>
   </head>
   <body>
-    <slot />
+    <div class="min-h-screen flex flex-col">
+      <header class="border-b bg-background border-border">
+        <div class="container mx-auto flex h-16 items-center justify-between px-4">
+          <div class="flex items-center gap-2">
+            <a href="/" class="text-xl font-bold tracking-tight text-foreground">10x-cards</a>
+          </div>
+          <div class="flex items-center gap-4">
+            {user?.email && (
+              <span class="text-sm text-muted-foreground hidden sm:inline-block">
+                {user.email}
+              </span>
+            )}
+            <form action="/api/auth/signout" method="POST">
+              <Button variant="ghost" size="sm" type="submit">
+                Wyloguj
+              </Button>
+            </form>
+          </div>
+        </div>
+      </header>
+      <main class="flex-1 bg-background text-foreground">
+        <slot />
+      </main>
+    </div>
   </body>
 </html>
 

@@ -1,8 +1,112 @@
 ---
-import Welcome from "../components/Welcome.astro";
-import Layout from "../layouts/Layout.astro";
+import "../styles/global.css";
+import { Button } from "@/components/ui/button";
+
+export const prerender = false;
+
+// Jeśli użytkownik jest zalogowany, przekieruj do aplikacji
+const { user } = Astro.locals;
+if (user) {
+  return Astro.redirect("/generate");
+}
 ---
 
-<Layout>
-  <Welcome />
-</Layout>
+<!doctype html>
+<html lang="pl" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>10x-cards | Nauka z AI</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: system-ui, -apple-system, sans-serif;
+        background-color: #09090b;
+        color: #fafafa;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+      }
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+      }
+      h1 {
+        font-size: 3rem;
+        font-weight: 800;
+        margin-bottom: 1rem;
+        background: linear-gradient(to right, #ffffff, #a1a1aa);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+      p      .subtitle {
+        font-size: 1.25rem;
+        color: #a1a1aa;
+        max-width: 600px;
+        margin-bottom: 3rem;
+        line-height: 1.6;
+      }
+      .project-info {
+        font-size: 0.875rem;
+        color: #52525b;
+        margin-bottom: 1rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        font-weight: 500;
+      }
+      .actions {
+        display: flex;
+        gap: 1rem;
+      }
+      /* Button styles simulation */
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 0.5rem;
+        font-weight: 500;
+        padding: 0.75rem 2rem;
+        text-decoration: none;
+        transition: opacity 0.2s;
+      }
+      .btn-primary {
+        background-color: #fafafa;
+        color: #09090b;
+      }
+      .btn-primary:hover {
+        opacity: 0.9;
+      }
+      .btn-outline {
+        border: 1px solid #27272a;
+        color: #fafafa;
+      }
+      .btn-outline:hover {
+        background-color: #27272a;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <p class="project-info">Projekt zaliczeniowy Izabela Żukowska</p>
+      <h1>10x-cards</h1>
+      <p class="subtitle">
+        Twórz fiszki 10x szybciej dzięki sztucznej inteligencji. 
+        Wklej tekst, a my zajmiemy się resztą.
+      </p>
+      
+      <div class="actions">
+        <a href="/login" class="btn btn-primary">Zaloguj się</a>
+        <a href="/register" class="btn btn-outline">Załóż konto</a>
+      </div>
+    </div>
+  </body>
+</html>

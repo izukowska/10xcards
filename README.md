@@ -1,110 +1,192 @@
-# 10xcards
+# Supabase CLI
 
-## Table of Contents
-1. [Project Name](#project-name)
-2. [Project Description](#project-description)
-3. [Tech Stack](#tech-stack)
-4. [Getting Started Locally](#getting-started-locally)
-5. [Available Scripts](#available-scripts)
-6. [Project Scope](#project-scope)
-7. [Project Status](#project-status)
-8. [License](#license)
+[![Coverage Status](https://coveralls.io/repos/github/supabase/cli/badge.svg?branch=main)](https://coveralls.io/github/supabase/cli?branch=main) [![Bitbucket Pipelines](https://img.shields.io/bitbucket/pipelines/supabase-cli/setup-cli/master?style=flat-square&label=Bitbucket%20Canary)](https://bitbucket.org/supabase-cli/setup-cli/pipelines) [![Gitlab Pipeline Status](https://img.shields.io/gitlab/pipeline-status/sweatybridge%2Fsetup-cli?label=Gitlab%20Canary)
+](https://gitlab.com/sweatybridge/setup-cli/-/pipelines)
 
-## Project Name
-10xcards
+[Supabase](https://supabase.io) is an open source Firebase alternative. We're building the features of Firebase using enterprise-grade open source tools.
 
-## Project Description
-10xcards is a web application designed to simplify the creation and management of flashcards for effective spaced repetition-based learning. The application enables users to generate flashcards in two ways:
+This repository contains all the functionality for Supabase CLI.
 
-- **AI-Generated Flashcards**: Users provide input text (between 1000 and 10,000 characters), and the AI generates candidate flashcards with a "front" (up to 200 characters) and a "back" (up to 500 characters). Users can then review, accept, edit, or reject these suggestions.
-- **Manual Flashcard Creation**: Users can manually create flashcards using a simple form with validated character limits.
+- [x] Running Supabase locally
+- [x] Managing database migrations
+- [x] Creating and deploying Supabase Functions
+- [x] Generating types directly from your database schema
+- [x] Making authenticated HTTP requests to [Management API](https://supabase.com/docs/reference/api/introduction)
 
-Additional functionalities include user account management (registration, login, password change, and account deletion), integration with a pre-built spaced repetition algorithm, and logging of flashcard generation sessions for performance monitoring.
+## Getting started
 
-## Tech Stack
+### Install the CLI
 
-- **Frontend**:
-  - Astro 5 – Enables building fast, efficient web pages with minimal JavaScript.
-  - React 19 – Provides the interactivity required for dynamic components.
-  - TypeScript 5 – Offers static typing for improved code quality and IDE support.
-  - Tailwind CSS 4 – Simplifies application styling through utility classes.
-  - Shadcn/ui – Supplies a library of ready-to-use React components for building the user interface.
-
-- **Backend & Database**:
-  - Supabase – Serves as a comprehensive backend solution featuring a PostgreSQL database, built-in authentication, and various SDKs for a backend-as-a-service approach.
-
-- **AI Integration**:
-  - Openrouter.ai – Provides access to a range of models (OpenAI, Anthropic, Google, and more) with cost limits for API keys, facilitating efficient AI-generated content.
-
-- **CI/CD & Hosting**:
-  - GitHub Actions – Used for continuous integration and deployment pipelines.
-  - DigitalOcean – Hosts the application using Docker images.
-
-## Getting Started Locally
-
-### Prerequisites
-- Node.js (version as specified in the `.nvmrc` file, e.g., 22.14.0)
-- NPM or Yarn
-- Git
-
-### Installation
-1. Clone this repository:
-   ```bash
-   git clone https://github.com/izukowska/10xcards.git
-   cd 10xcards
-   ```
-
-2. Install the dependencies:
-   ```bash
-   npm install
-   ```
-
-3. Create a `.env` file in the root directory to add your environment variables such as Supabase credentials and Openrouter.ai API keys.
-
-### Running the Project
-Start the development server with:
+Available via [NPM](https://www.npmjs.com) as dev dependency. To install:
 
 ```bash
-npm run dev
+npm i supabase --save-dev
 ```
 
-Then, open your browser and navigate to [http://localhost:3000](http://localhost:3000) to view the application.
+When installing with yarn 4, you need to disable experimental fetch with the following nodejs config.
 
-## Available Scripts
+```
+NODE_OPTIONS=--no-experimental-fetch yarn add supabase
+```
 
-From the project root, you can run:
+> **Note**
+> For Bun versions below v1.0.17, you must add `supabase` as a [trusted dependency](https://bun.sh/guides/install/trusted) before running `bun add -D supabase`.
 
-- `npm run dev`: Runs the application in development mode.
-- `npm run build`: Builds the application for production.
-- `npm run preview`: Previews the production build locally.
-- `npm run lint`: Checks the project for linting errors.
-- `npm run lint:fix`: Automatically fixes linting errors.
-- `npm run format`: Formats the code using Prettier.
+<details>
+  <summary><b>macOS</b></summary>
 
-Refer to the `package.json` file for additional scripts if available.
+Available via [Homebrew](https://brew.sh). To install:
 
-## Project Scope
+```sh
+brew install supabase/tap/supabase
+```
 
-The MVP of 10xcards includes:
+To install the beta release channel:
 
-- **AI-Driven Flashcard Generation**: Generate flashcards based on user-provided text input with synchronous generation and review.
-- **Flashcard Review Process**: Review candidate flashcards and decide to accept, edit, or reject each one, with only accepted flashcards saved.
-- **Manual Flashcard Creation**: Create flashcards manually via a simple form with strict character limits (200 characters for the front and 500 for the back).
-- **User Account Management**: Account registration, login, password change, and account deletion with built-in authentication and authorization.
-- **Integration with Spaced Repetition**: Use existing spaced repetition algorithms to optimize learning.
-- **Logging System**: Track flashcard generation sessions to measure AI effectiveness and success rates.
+```sh
+brew install supabase/tap/supabase-beta
+brew link --overwrite supabase-beta
+```
 
-Exclusions from the MVP:
-- Advanced repetition algorithms (e.g., SuperMemo, Anki).
-- Support for importing multiple file formats (e.g., PDF, DOCX).
-- Sharing flashcard sets between users.
-- Integrations with external educational platforms.
-- Mobile applications (web-only for the initial release).
+To upgrade:
 
-## Project Status
+```sh
+brew upgrade supabase
+```
 
-Currently, 10xcards is in the MVP stage. Future enhancements may include adding more advanced AI capabilities, enhancing scalability, and incorporating additional features based on user feedback.
+</details>
 
-## License
+<details>
+  <summary><b>Windows</b></summary>
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
+Available via [Scoop](https://scoop.sh). To install:
+
+```powershell
+scoop bucket add supabase https://github.com/supabase/scoop-bucket.git
+scoop install supabase
+```
+
+To upgrade:
+
+```powershell
+scoop update supabase
+```
+
+</details>
+
+<details>
+  <summary><b>Linux</b></summary>
+
+Available via [Homebrew](https://brew.sh) and Linux packages.
+
+#### via Homebrew
+
+To install:
+
+```sh
+brew install supabase/tap/supabase
+```
+
+To upgrade:
+
+```sh
+brew upgrade supabase
+```
+
+#### via Linux packages
+
+Linux packages are provided in [Releases](https://github.com/supabase/cli/releases). To install, download the `.apk`/`.deb`/`.rpm`/`.pkg.tar.zst` file depending on your package manager and run the respective commands.
+
+```sh
+sudo apk add --allow-untrusted <...>.apk
+```
+
+```sh
+sudo dpkg -i <...>.deb
+```
+
+```sh
+sudo rpm -i <...>.rpm
+```
+
+```sh
+sudo pacman -U <...>.pkg.tar.zst
+```
+
+</details>
+
+<details>
+  <summary><b>Other Platforms</b></summary>
+
+You can also install the CLI via [go modules](https://go.dev/ref/mod#go-install) without the help of package managers.
+
+```sh
+go install github.com/supabase/cli@latest
+```
+
+Add a symlink to the binary in `$PATH` for easier access:
+
+```sh
+ln -s "$(go env GOPATH)/bin/cli" /usr/bin/supabase
+```
+
+This works on other non-standard Linux distros.
+
+</details>
+
+<details>
+  <summary><b>Community Maintained Packages</b></summary>
+
+Available via [pkgx](https://pkgx.sh/). Package script [here](https://github.com/pkgxdev/pantry/blob/main/projects/supabase.com/cli/package.yml).
+To install in your working directory:
+
+```bash
+pkgx install supabase
+```
+
+Available via [Nixpkgs](https://nixos.org/). Package script [here](https://github.com/NixOS/nixpkgs/blob/master/pkgs/development/tools/supabase-cli/default.nix).
+
+</details>
+
+### Run the CLI
+
+```bash
+supabase bootstrap
+```
+
+Or using npx:
+
+```bash
+npx supabase bootstrap
+```
+
+The bootstrap command will guide you through the process of setting up a Supabase project using one of the [starter](https://github.com/supabase-community/supabase-samples/blob/main/samples.json) templates.
+
+## Docs
+
+Command & config reference can be found [here](https://supabase.com/docs/reference/cli/about).
+
+## Testing
+
+### Unit tests
+
+We use Vitest for unit tests.
+
+### E2E tests
+
+We use Playwright for end-to-end tests.
+
+## Breaking changes
+
+We follow semantic versioning for changes that directly impact CLI commands, flags, and configurations.
+
+However, due to dependencies on other service images, we cannot guarantee that schema migrations, seed.sql, and generated types will always work for the same CLI major version. If you need such guarantees, we encourage you to pin a specific version of CLI in package.json.
+
+## Developing
+
+To run from source:
+
+```sh
+# Go >= 1.22
+go run . help
+```

@@ -1,15 +1,20 @@
 # Dokument wymagań produktu (PRD) - AI Fiszki
+
 ## 1. Przegląd produktu
+
 Projekt 10x-cards ma na celu przyspieszenie i uproszczenie tworzenia i zarządzania zestawami fiszek edukacyjnych poprzez generowanie propozycji fiszek przez AI oraz prosty edytor manualny.
 Aplikacja wykorzystuje modele LLM (poprzez API) do generowania sugestii fiszek na podstawie dostarczonego tekstu.
 
 ## 2. Problem użytkownika
+
 Użytkownicy chcą korzystać z metody spaced repetition, ale:
+
 - Ręczne tworzenie wysokiej jakości fiszek jest czasochłonne.
 - Początkujący mają trudność z właściwym dzieleniem treści na krótkie, skuteczne fiszki.
-Produkt ma skrócić czas przygotowania fiszek i ułatwić decyzje o tym, co powinno znaleźć się na przodzie i tyle fiszki.
+  Produkt ma skrócić czas przygotowania fiszek i ułatwić decyzje o tym, co powinno znaleźć się na przodzie i tyle fiszki.
 
 ## 3. Wymagania funkcjonalne
+
 1. Generowanie fiszek przez AI
    - Wejściowy tekst ma długość od 1000 do 10 000 znaków.
    - Użytkownik wkleja dowolny tekst (np. fragment podręcznika).
@@ -43,10 +48,11 @@ Produkt ma skrócić czas przygotowania fiszek i ułatwić decyzje o tym, co pow
    - Logi służą do pomiaru metryk sukcesu.
    - Zbieranie informacji o tym ile fiszek zostało wygenerowanych przez AI i ile z nich ostatecznie zaakceptowano.
 8. Wymagania prawne i ograniczenia:
-    - Dane osobowe użytkowników i fiszek przechowywane zgodnie z RODO.
-    - Prawo do wglądu i usunięcia danych (konto wraz z fiszkami) na wniosek użytkownika.
+   - Dane osobowe użytkowników i fiszek przechowywane zgodnie z RODO.
+   - Prawo do wglądu i usunięcia danych (konto wraz z fiszkami) na wniosek użytkownika.
 
 ## 4. Granice produktu
+
 1. Brak własnego, zaawansowanego algorytmu powtórek (korzystamy z gotowego rozwiązania, biblioteki open-source)
 2. Brak importu wielu formatów (PDF, DOCX i inne).
 3. Brak współdzielenia zestawów fiszek między użytkownikami.
@@ -54,6 +60,7 @@ Produkt ma skrócić czas przygotowania fiszek i ułatwić decyzje o tym, co pow
 5. Brak aplikacji mobilnych w MVP, tylko aplikacja webowa.
 
 ## 5. Historyjki użytkowników
+
 - ID: US-001
   Tytuł: Rejestracja konta
   Opis: Jako nowy użytkownik chcę założyć konto, aby móc zapisywać fiszki i mieć do nich dostęp.
@@ -96,7 +103,7 @@ Produkt ma skrócić czas przygotowania fiszek i ułatwić decyzje o tym, co pow
 
 - ID: US-006
   Tytuł: Wprowadzenie tekstu do generowania fiszek
-  Opis: Jako użytkownik chcę wkleić tekst do formularza AI, aby otrzymać propozycje fiszek.
+  Opis: Jako zalogowany użytkownik chcę wkleić tekst do formularza AI, aby otrzymać propozycje fiszek.
   Kryteria akceptacji:
   - Formularz akceptuje tekst od 1000 do 10 000 znaków.
   - Zbyt krótki lub zbyt długi tekst jest odrzucany z komunikatem walidacyjnym.
@@ -113,7 +120,7 @@ Produkt ma skrócić czas przygotowania fiszek i ułatwić decyzje o tym, co pow
 
 - ID: US-008
   Tytuł: Przegląd propozycji AI
-  Opis: Jako użytkownik chcę przeglądać propozycje AI, aby zdecydować, które zachować.
+  Opis: Jako zalgoowany użytkownik chcę przeglądać propozycje AI, aby zdecydować, które zachować.
   Kryteria akceptacji:
   - Lista propozycji jest czytelna i zawiera pola przód i tył.
   - Dla każdej propozycji dostępne są akcje zaakceptuj, edytuj, odrzuć.
@@ -185,7 +192,7 @@ Produkt ma skrócić czas przygotowania fiszek i ułatwić decyzje o tym, co pow
   - Po usunięciu fiszka znika z listy.
 
 - ID: US-017
-  Tytuł: Sesja nauki z  algorytem powtórek
+  Tytuł: Sesja nauki z algorytem powtórek
   Opis: Jako użytkownik chcę, aby dodane fiszki były dostępne w widoku "Sesja nauki" opartym na zewnętrzym algorytmie, aby móc efektywnie uczyć się (spaced repetition).
   Kryteria akceptacji:
   - W widoku "Sesja nauki" algorytm przygotowuje dla mnie sesje nauki fiszek.
@@ -217,7 +224,7 @@ Produkt ma skrócić czas przygotowania fiszek i ułatwić decyzje o tym, co pow
   - Log jest powiązany z użytkownikiem.
 
 ## 6. Metryki sukcesu
+
 1. Co najmniej 75 procent fiszek wygenerowanych przez AI jest akceptowanych przez użytkowników.
 2. Co najmniej 75 procent nowych fiszek jest tworzonych z wykorzystaniem AI.
 3. Metryki są liczone na podstawie danych z dedykowanej tabeli logów generowania.
-

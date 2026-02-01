@@ -1,0 +1,13 @@
+---
+import AuthLayout from "../layouts/AuthLayout.astro";
+import { LoginForm } from "../components/auth/LoginForm";
+---
+
+<AuthLayout title="Logowanie">
+  <div class="mb-6 text-center">
+    <h2 class="text-xl font-semibold text-gray-900 dark:text-white">Witaj ponownie</h2>
+    <p class="text-sm text-gray-500 dark:text-gray-400">Zaloguj się, aby kontynuować naukę</p>
+  </div>
+  
+  <LoginForm client:only="react" />
+</AuthLayout>
