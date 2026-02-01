@@ -6,11 +6,7 @@ interface GenerationStatusProps {
   emptyResult?: boolean;
 }
 
-export function GenerationStatus({
-  status,
-  generatedCount,
-  emptyResult,
-}: GenerationStatusProps) {
+export function GenerationStatus({ status, generatedCount, emptyResult }: GenerationStatusProps) {
   if (status === "idle") {
     return null;
   }
@@ -27,12 +23,8 @@ export function GenerationStatus({
   if (status === "success" && emptyResult) {
     return (
       <div className="text-center py-8">
-        <p className="text-muted-foreground">
-          Nie udało się wygenerować żadnych fiszek.
-        </p>
-        <p className="text-sm text-muted-foreground mt-2">
-          Spróbuj ponownie z innym tekstem źródłowym.
-        </p>
+        <p className="text-muted-foreground">Nie udało się wygenerować żadnych fiszek.</p>
+        <p className="text-sm text-muted-foreground mt-2">Spróbuj ponownie z innym tekstem źródłowym.</p>
       </div>
     );
   }
@@ -46,20 +38,10 @@ export function GenerationStatus({
           viewBox="0 0 24 24"
           stroke="currentColor"
         >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M5 13l4 4L19 7"
-          />
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
         </svg>
         <span>
-          Wygenerowano {generatedCount}{" "}
-          {generatedCount === 1
-            ? "fiszkę"
-            : generatedCount < 5
-              ? "fiszki"
-              : "fiszek"}
+          Wygenerowano {generatedCount} {generatedCount === 1 ? "fiszkę" : generatedCount < 5 ? "fiszki" : "fiszek"}
         </span>
       </div>
     );

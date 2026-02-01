@@ -5,14 +5,7 @@ import * as z from "zod";
 import { registerSchema } from "../../lib/validation/auth";
 import { createBrowserClient } from "../../lib/supabase";
 import { Button } from "../ui/button";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "../ui/form";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../ui/form";
 import { Input } from "../ui/input";
 import { Alert, AlertDescription, AlertTitle } from "../ui/alert";
 import { Loader2, AlertCircle, CheckCircle } from "lucide-react";
@@ -48,8 +41,8 @@ export const RegisterForm = () => {
 
       setSuccess(true);
       form.reset();
-    } catch (e: any) {
-      setError(e.message || "Wystąpił błąd podczas rejestracji");
+    } catch (e: unknown) {
+      setError(e instanceof Error ? e.message : "Wystąpił błąd podczas rejestracji");
     } finally {
       setIsLoading(false);
     }
@@ -62,11 +55,11 @@ export const RegisterForm = () => {
           <CheckCircle className="h-12 w-12 text-green-500" data-testid="register-success-icon" />
         </div>
         <h3 className="text-lg font-medium">Rejestracja pomyślna!</h3>
-        <p className="text-sm text-gray-500">
-          Sprawdź swoją skrzynkę email, aby potwierdzić konto.
-        </p>
+        <p className="text-sm text-gray-500">Sprawdź swoją skrzynkę email, aby potwierdzić konto.</p>
         <Button asChild className="w-full mt-4">
-          <a href="/login" data-testid="register-success-login-link">Wróć do logowania</a>
+          <a href="/login" data-testid="register-success-login-link">
+            Wróć do logowania
+          </a>
         </Button>
       </div>
     );
@@ -91,11 +84,7 @@ export const RegisterForm = () => {
               <FormItem>
                 <FormLabel>Email</FormLabel>
                 <FormControl>
-                  <Input 
-                    placeholder="imie@przyklad.com" 
-                    {...field} 
-                    data-testid="register-email-input"
-                  />
+                  <Input placeholder="imie@przyklad.com" {...field} data-testid="register-email-input" />
                 </FormControl>
                 <FormMessage data-testid="register-email-error" />
               </FormItem>
@@ -108,12 +97,7 @@ export const RegisterForm = () => {
               <FormItem>
                 <FormLabel>Hasło</FormLabel>
                 <FormControl>
-                  <Input 
-                    type="password" 
-                    placeholder="••••••••" 
-                    {...field} 
-                    data-testid="register-password-input"
-                  />
+                  <Input type="password" placeholder="••••••••" {...field} data-testid="register-password-input" />
                 </FormControl>
                 <FormMessage data-testid="register-password-error" />
               </FormItem>
@@ -126,10 +110,10 @@ export const RegisterForm = () => {
               <FormItem>
                 <FormLabel>Potwierdź hasło</FormLabel>
                 <FormControl>
-                  <Input 
-                    type="password" 
-                    placeholder="••••••••" 
-                    {...field} 
+                  <Input
+                    type="password"
+                    placeholder="••••••••"
+                    {...field}
                     data-testid="register-confirm-password-input"
                   />
                 </FormControl>
@@ -137,25 +121,16 @@ export const RegisterForm = () => {
               </FormItem>
             )}
           />
-          <Button 
-            type="submit" 
-            className="w-full" 
-            disabled={isLoading}
-            data-testid="register-submit-button"
-          >
+          <Button type="submit" className="w-full" disabled={isLoading} data-testid="register-submit-button">
             {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" data-testid="register-loading-spinner" />}
             Zarejestruj się
           </Button>
         </form>
       </Form>
-      
+
       <div className="text-center text-sm">
         Masz już konto?{" "}
-        <a 
-          href="/login" 
-          className="text-blue-600 hover:underline"
-          data-testid="register-login-link"
-        >
+        <a href="/login" className="text-blue-600 hover:underline" data-testid="register-login-link">
           Zaloguj się
         </a>
       </div>

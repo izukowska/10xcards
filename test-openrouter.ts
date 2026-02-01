@@ -3,6 +3,7 @@
  * Run with: node --loader tsx test-openrouter.ts
  * Or add to package.json scripts
  */
+/* eslint-disable no-console */
 
 import { OpenRouterService } from "./src/lib/services/openrouter.service";
 import { ConsoleLogger } from "./src/lib/logger";
@@ -74,13 +75,13 @@ async function testSystemPrompt() {
   try {
     const response = await service.sendChat({ messages });
     const hasEmoji = response.content.includes("🎓");
-    
+
     if (hasEmoji) {
       log("green", "✓ System prompt respected");
     } else {
       log("yellow", "⚠ System prompt may not be fully respected");
     }
-    
+
     log("gray", `  Content: ${response.content}`);
     return true;
   } catch (error) {
@@ -124,10 +125,10 @@ async function testJsonSchema() {
 
   try {
     const response = await service.sendChat({ messages, responseFormat });
-    
+
     // Validate response
     const validation = service.validateResponse(response.content, responseFormat);
-    
+
     if (validation.valid) {
       log("green", "✓ JSON schema validation passed");
       const parsed = JSON.parse(response.content);
@@ -137,7 +138,7 @@ async function testJsonSchema() {
       log("red", `✗ JSON schema validation failed: ${validation.error}`);
       return false;
     }
-    
+
     return true;
   } catch (error) {
     log("red", `✗ JSON schema test failed: ${error instanceof Error ? error.message : "Unknown error"}`);
@@ -187,7 +188,7 @@ async function testHealthCheck() {
 
   try {
     const health = await service.healthCheck();
-    
+
     if (health.healthy) {
       log("green", "✓ Service is healthy");
       log("gray", `  Latency: ${health.latencyMs}ms`);
@@ -195,7 +196,7 @@ async function testHealthCheck() {
       log("red", `✗ Service is unhealthy: ${health.message}`);
       return false;
     }
-    
+
     return true;
   } catch (error) {
     log("red", `✗ Health check failed: ${error instanceof Error ? error.message : "Unknown error"}`);
@@ -228,7 +229,7 @@ async function testCustomParameters() {
         top_p: 0.8,
       },
     });
-    
+
     log("green", "✓ Custom parameters accepted");
     log("gray", `  Content: ${response.content}`);
     log("gray", `  Tokens: ${response.usage.total_tokens}`);
@@ -281,7 +282,7 @@ async function runAllTests() {
   log("blue", "╚═══════════════════════════════════════════════════╝");
   log("gray", `Total tests: ${tests.length}`);
   log("green", `Passed: ${results.passed}`);
-  
+
   if (results.failed > 0) {
     log("red", `Failed: ${results.failed}`);
     process.exit(1);

@@ -1,4 +1,4 @@
-import { type Page, type Locator } from '@playwright/test';
+import { type Page, type Locator } from "@playwright/test";
 
 /**
  * Page Object Model for Home Page (Landing Page)
@@ -6,25 +6,25 @@ import { type Page, type Locator } from '@playwright/test';
  */
 export class HomePage {
   readonly page: Page;
-  
+
   // Locators
   readonly loginButton: Locator;
   readonly registerButton: Locator;
 
   constructor(page: Page) {
     this.page = page;
-    
+
     // Initialize locators using data-test-id
-    this.loginButton = page.getByTestId('home-login-button');
-    this.registerButton = page.getByTestId('home-register-button');
+    this.loginButton = page.getByTestId("home-login-button");
+    this.registerButton = page.getByTestId("home-register-button");
   }
 
   /**
    * Navigate to the home page
    */
   async goto() {
-    await this.page.goto('/');
-    await this.page.waitForLoadState('networkidle');
+    await this.page.goto("/");
+    await this.page.waitForLoadState("networkidle");
   }
 
   /**

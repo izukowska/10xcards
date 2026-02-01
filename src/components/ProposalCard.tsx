@@ -1,12 +1,5 @@
 import * as React from "react";
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-  CardContent,
-  CardFooter,
-} from "@/components/ui/card";
+import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ProposalEditor } from "@/components/ProposalEditor";
 import { cn } from "@/lib/utils";
@@ -71,19 +64,12 @@ export function ProposalCard({
       <CardHeader>
         <div className="flex items-start justify-between gap-4">
           <div className="flex-1 min-w-0">
-            <CardTitle className="text-base break-words">
-              {proposal.front}
-            </CardTitle>
+            <CardTitle className="text-base break-words">{proposal.front}</CardTitle>
           </div>
           {proposal.decision !== "pending" && (
             <span className="text-xs font-medium px-2 py-1 rounded-md bg-background/50 shrink-0 flex items-center gap-1">
               {proposal.decision === "edited" && (
-                <svg
-                  className="w-3 h-3"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
+                <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
@@ -98,9 +84,7 @@ export function ProposalCard({
         </div>
       </CardHeader>
       <CardContent>
-        <CardDescription className="text-sm whitespace-pre-wrap break-words">
-          {proposal.back}
-        </CardDescription>
+        <CardDescription className="text-sm whitespace-pre-wrap break-words">{proposal.back}</CardDescription>
       </CardContent>
       <CardFooter className="gap-2">
         {proposal.decision === "saved" ? null : proposal.decision === "rejected" ? (

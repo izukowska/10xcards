@@ -17,7 +17,7 @@ import { OpenRouterError as OpenRouterErrorClass } from "../../types";
  */
 interface OpenRouterPayload {
   model: string;
-  messages: Array<{ role: string; content: string }>;
+  messages: { role: string; content: string }[];
   temperature?: number;
   top_p?: number;
   frequency_penalty?: number;
@@ -32,13 +32,13 @@ interface OpenRouterPayload {
 interface OpenRouterApiResponse {
   id: string;
   model: string;
-  choices: Array<{
+  choices: {
     message: {
       role: string;
       content: string;
     };
     finish_reason?: string;
-  }>;
+  }[];
   usage: {
     prompt_tokens: number;
     completion_tokens: number;
@@ -483,7 +483,10 @@ export class OpenRouterService {
    * @param schema - JSON schema
    * @returns Validation result
    */
-  private validateAgainstSchema(data: unknown, schema: { type: string; properties?: Record<string, unknown>; required?: string[]; additionalProperties?: boolean }): ValidationResult {
+  private validateAgainstSchema(
+    data: unknown,
+    schema: { type: string; properties?: Record<string, unknown>; required?: string[]; additionalProperties?: boolean }
+  ): ValidationResult {
     // Basic type validation
     if (schema.type === "object") {
       if (typeof data !== "object" || data === null || Array.isArray(data)) {

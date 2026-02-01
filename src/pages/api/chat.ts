@@ -126,7 +126,7 @@ export const POST: APIRoute = async ({ request }) => {
     let body: unknown;
     try {
       body = await request.json();
-    } catch (error) {
+    } catch {
       logger.warn("Invalid JSON in request body");
       return new Response(
         JSON.stringify({
@@ -205,10 +205,7 @@ export const POST: APIRoute = async ({ request }) => {
 
     // Step 6: Validate response if responseFormat was provided
     if (validatedData.responseFormat) {
-      const validation = openRouterService.validateResponse(
-        response.content,
-        validatedData.responseFormat
-      );
+      const validation = openRouterService.validateResponse(response.content, validatedData.responseFormat);
 
       if (!validation.valid) {
         logger.error("Response validation failed", {

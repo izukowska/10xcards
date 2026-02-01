@@ -1,17 +1,21 @@
-import { test as base } from '@playwright/test';
-import { LoginPage, RegisterPage, HomePage } from '../pages';
+import { test as base } from "@playwright/test";
+import { LoginPage, RegisterPage, HomePage } from "../pages";
+
+/* eslint-disable no-console */
+/* eslint-disable react-hooks/rules-of-hooks */
 
 /**
  * Custom fixtures for authentication tests
  * Provides pre-configured page objects and authenticated contexts
  */
 
-type AuthFixtures = {
+interface AuthFixtures {
   loginPage: LoginPage;
   registerPage: RegisterPage;
   homePage: HomePage;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   authenticatedPage: any;
-};
+}
 
 /**
  * Extended test with authentication fixtures
@@ -49,18 +53,18 @@ export const test = base.extend<AuthFixtures>({
     const loginPage = new LoginPage(page);
     await loginPage.goto();
 
-    const testEmail = process.env.E2E_EMAIL || process.env.E2E_USERNAME || 'test@example.com';
-    const testPassword = process.env.E2E_PASSWORD || 'Abcd1234!';
+    const testEmail = process.env.E2E_EMAIL || process.env.E2E_USERNAME || "test@example.com";
+    const testPassword = process.env.E2E_PASSWORD || "Abcd1234!";
 
     console.log(`🔐 Logging in with: ${testEmail}`);
 
     await loginPage.login(testEmail, testPassword);
-    
+
     try {
       await loginPage.waitForSuccessfulLogin();
-      console.log('✅ Successfully authenticated');
+      console.log("✅ Successfully authenticated");
     } catch (error) {
-      console.error('❌ Authentication failed:', error);
+      console.error("❌ Authentication failed:", error);
       throw error;
     }
 
@@ -68,4 +72,4 @@ export const test = base.extend<AuthFixtures>({
   },
 });
 
-export { expect } from '@playwright/test';
+export { expect } from "@playwright/test";

@@ -1,4 +1,4 @@
-import { type Page, type Locator } from '@playwright/test';
+import { type Page, type Locator } from "@playwright/test";
 
 /**
  * Page Object Model for Login Page
@@ -6,7 +6,7 @@ import { type Page, type Locator } from '@playwright/test';
  */
 export class LoginPage {
   readonly page: Page;
-  
+
   // Locators
   readonly emailInput: Locator;
   readonly passwordInput: Locator;
@@ -21,30 +21,30 @@ export class LoginPage {
 
   constructor(page: Page) {
     this.page = page;
-    
+
     // Initialize locators using data-test-id
-    this.emailInput = page.getByTestId('login-email-input');
-    this.passwordInput = page.getByTestId('login-password-input');
-    this.submitButton = page.getByTestId('login-submit-button');
-    this.errorAlert = page.getByTestId('login-error-alert');
-    this.errorMessage = page.getByTestId('login-error-message');
-    this.emailError = page.getByTestId('login-email-error');
-    this.passwordError = page.getByTestId('login-password-error');
-    this.registerLink = page.getByTestId('login-register-link');
-    this.forgotPasswordLink = page.getByTestId('login-forgot-password-link');
-    this.loadingSpinner = page.getByTestId('login-loading-spinner');
+    this.emailInput = page.getByTestId("login-email-input");
+    this.passwordInput = page.getByTestId("login-password-input");
+    this.submitButton = page.getByTestId("login-submit-button");
+    this.errorAlert = page.getByTestId("login-error-alert");
+    this.errorMessage = page.getByTestId("login-error-message");
+    this.emailError = page.getByTestId("login-email-error");
+    this.passwordError = page.getByTestId("login-password-error");
+    this.registerLink = page.getByTestId("login-register-link");
+    this.forgotPasswordLink = page.getByTestId("login-forgot-password-link");
+    this.loadingSpinner = page.getByTestId("login-loading-spinner");
   }
 
   /**
    * Navigate to the login page
    */
   async goto() {
-    await this.page.goto('/login');
-    await this.page.waitForLoadState('domcontentloaded');
+    await this.page.goto("/login");
+    await this.page.waitForLoadState("domcontentloaded");
     // Wait for React to hydrate - wait for any input to appear
     await this.page.waitForSelector('input[type="password"]', { timeout: 15000 });
     // Additional wait for network to settle
-    await this.page.waitForLoadState('networkidle');
+    await this.page.waitForLoadState("networkidle");
   }
 
   /**
@@ -88,7 +88,7 @@ export class LoginPage {
    * Get error message text
    */
   async getErrorMessage(): Promise<string> {
-    return await this.errorMessage.textContent() || '';
+    return (await this.errorMessage.textContent()) || "";
   }
 
   /**
@@ -149,6 +149,6 @@ export class LoginPage {
    * Wait for navigation to complete after successful login
    */
   async waitForSuccessfulLogin() {
-    await this.page.waitForURL('**/generate', { timeout: 10000 });
+    await this.page.waitForURL("**/generate", { timeout: 10000 });
   }
 }

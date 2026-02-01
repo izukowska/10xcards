@@ -14,13 +14,7 @@ interface GenerationFormProps {
 const MIN_LENGTH = 1000;
 const MAX_LENGTH = 10000;
 
-export function GenerationForm({
-  value,
-  onChange,
-  onSubmit,
-  isSubmitting,
-  validationError,
-}: GenerationFormProps) {
+export function GenerationForm({ value, onChange, onSubmit, isSubmitting, validationError }: GenerationFormProps) {
   const textLength = value.length;
   const isValid = textLength >= MIN_LENGTH && textLength <= MAX_LENGTH;
   const canSubmit = isValid && !isSubmitting;
@@ -61,24 +55,14 @@ export function GenerationForm({
         <div className="flex justify-between items-center">
           <span className={cn("text-xs", getCharCountColor())}>
             {textLength} / {MAX_LENGTH} znaków
-            {textLength < MIN_LENGTH && (
-              <span className="ml-2">
-                (minimum {MIN_LENGTH - textLength} znaków)
-              </span>
-            )}
+            {textLength < MIN_LENGTH && <span className="ml-2">(minimum {MIN_LENGTH - textLength} znaków)</span>}
           </span>
         </div>
       </div>
 
-      {validationError && (
-        <InlineAlert variant="error" message={validationError} />
-      )}
+      {validationError && <InlineAlert variant="error" message={validationError} />}
 
-      <Button
-        type="submit"
-        disabled={!canSubmit}
-        className="w-full sm:w-auto"
-      >
+      <Button type="submit" disabled={!canSubmit} className="w-full sm:w-auto">
         {isSubmitting ? "Generowanie..." : "Generuj fiszki"}
       </Button>
     </form>

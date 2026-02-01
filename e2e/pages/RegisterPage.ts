@@ -1,4 +1,4 @@
-import { type Page, type Locator } from '@playwright/test';
+import { type Page, type Locator } from "@playwright/test";
 
 /**
  * Page Object Model for Register Page
@@ -6,7 +6,7 @@ import { type Page, type Locator } from '@playwright/test';
  */
 export class RegisterPage {
   readonly page: Page;
-  
+
   // Locators
   readonly emailInput: Locator;
   readonly passwordInput: Locator;
@@ -25,34 +25,34 @@ export class RegisterPage {
 
   constructor(page: Page) {
     this.page = page;
-    
+
     // Initialize locators using data-test-id
-    this.emailInput = page.getByTestId('register-email-input');
-    this.passwordInput = page.getByTestId('register-password-input');
-    this.confirmPasswordInput = page.getByTestId('register-confirm-password-input');
-    this.submitButton = page.getByTestId('register-submit-button');
-    this.errorAlert = page.getByTestId('register-error-alert');
-    this.errorMessage = page.getByTestId('register-error-message');
-    this.emailError = page.getByTestId('register-email-error');
-    this.passwordError = page.getByTestId('register-password-error');
-    this.confirmPasswordError = page.getByTestId('register-confirm-password-error');
-    this.loginLink = page.getByTestId('register-login-link');
-    this.loadingSpinner = page.getByTestId('register-loading-spinner');
-    this.successMessage = page.getByTestId('register-success-message');
-    this.successIcon = page.getByTestId('register-success-icon');
-    this.successLoginLink = page.getByTestId('register-success-login-link');
+    this.emailInput = page.getByTestId("register-email-input");
+    this.passwordInput = page.getByTestId("register-password-input");
+    this.confirmPasswordInput = page.getByTestId("register-confirm-password-input");
+    this.submitButton = page.getByTestId("register-submit-button");
+    this.errorAlert = page.getByTestId("register-error-alert");
+    this.errorMessage = page.getByTestId("register-error-message");
+    this.emailError = page.getByTestId("register-email-error");
+    this.passwordError = page.getByTestId("register-password-error");
+    this.confirmPasswordError = page.getByTestId("register-confirm-password-error");
+    this.loginLink = page.getByTestId("register-login-link");
+    this.loadingSpinner = page.getByTestId("register-loading-spinner");
+    this.successMessage = page.getByTestId("register-success-message");
+    this.successIcon = page.getByTestId("register-success-icon");
+    this.successLoginLink = page.getByTestId("register-success-login-link");
   }
 
   /**
    * Navigate to the register page
    */
   async goto() {
-    await this.page.goto('/register');
-    await this.page.waitForLoadState('domcontentloaded');
+    await this.page.goto("/register");
+    await this.page.waitForLoadState("domcontentloaded");
     // Wait for React to hydrate - wait for any input to appear
     await this.page.waitForSelector('input[type="password"]', { timeout: 15000 });
     // Additional wait for network to settle
-    await this.page.waitForLoadState('networkidle');
+    await this.page.waitForLoadState("networkidle");
   }
 
   /**
@@ -104,7 +104,7 @@ export class RegisterPage {
    * Get error message text
    */
   async getErrorMessage(): Promise<string> {
-    return await this.errorMessage.textContent() || '';
+    return (await this.errorMessage.textContent()) || "";
   }
 
   /**

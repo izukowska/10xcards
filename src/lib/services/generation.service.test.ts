@@ -3,7 +3,7 @@ import type { FlashcardProposalDto } from "../../types";
 
 /**
  * Unit tests for parseFlashcardProposals function
- * 
+ *
  * Tests cover:
  * - Valid input scenarios
  * - Type validation
@@ -246,9 +246,7 @@ describe("parseFlashcardProposals", () => {
         proposals: [{ front, back: "Answer" }],
       };
 
-      expect(() => parseFlashcardProposals(input)).toThrow(
-        "Proposal at index 0 exceeds length limits"
-      );
+      expect(() => parseFlashcardProposals(input)).toThrow("Proposal at index 0 exceeds length limits");
     });
 
     it("should accept back with exactly 1 character", () => {
@@ -278,9 +276,7 @@ describe("parseFlashcardProposals", () => {
         proposals: [{ front: "Question", back }],
       };
 
-      expect(() => parseFlashcardProposals(input)).toThrow(
-        "Proposal at index 0 exceeds length limits"
-      );
+      expect(() => parseFlashcardProposals(input)).toThrow("Proposal at index 0 exceeds length limits");
     });
 
     it("should check length AFTER trimming", () => {
@@ -302,9 +298,7 @@ describe("parseFlashcardProposals", () => {
         proposals: [{ front, back: "Answer" }],
       };
 
-      expect(() => parseFlashcardProposals(input)).toThrow(
-        "Proposal at index 0 exceeds length limits"
-      );
+      expect(() => parseFlashcardProposals(input)).toThrow("Proposal at index 0 exceeds length limits");
     });
   });
 
@@ -318,9 +312,7 @@ describe("parseFlashcardProposals", () => {
         proposals: [{ front: "", back: "Answer" }],
       };
 
-      expect(() => parseFlashcardProposals(input)).toThrow(
-        "Proposal at index 0 has empty front/back"
-      );
+      expect(() => parseFlashcardProposals(input)).toThrow("Proposal at index 0 has empty front/back");
     });
 
     it("should reject empty string in back (after trim)", () => {
@@ -328,9 +320,7 @@ describe("parseFlashcardProposals", () => {
         proposals: [{ front: "Question", back: "" }],
       };
 
-      expect(() => parseFlashcardProposals(input)).toThrow(
-        "Proposal at index 0 has empty front/back"
-      );
+      expect(() => parseFlashcardProposals(input)).toThrow("Proposal at index 0 has empty front/back");
     });
 
     it("should reject whitespace-only string in front", () => {
@@ -338,9 +328,7 @@ describe("parseFlashcardProposals", () => {
         proposals: [{ front: "   ", back: "Answer" }],
       };
 
-      expect(() => parseFlashcardProposals(input)).toThrow(
-        "Proposal at index 0 has empty front/back"
-      );
+      expect(() => parseFlashcardProposals(input)).toThrow("Proposal at index 0 has empty front/back");
     });
 
     it("should reject whitespace-only string in back", () => {
@@ -348,9 +336,7 @@ describe("parseFlashcardProposals", () => {
         proposals: [{ front: "Question", back: "   " }],
       };
 
-      expect(() => parseFlashcardProposals(input)).toThrow(
-        "Proposal at index 0 has empty front/back"
-      );
+      expect(() => parseFlashcardProposals(input)).toThrow("Proposal at index 0 has empty front/back");
     });
 
     it("should reject tabs/newlines-only strings", () => {
@@ -358,9 +344,7 @@ describe("parseFlashcardProposals", () => {
         proposals: [{ front: "\t\n\r", back: "Answer" }],
       };
 
-      expect(() => parseFlashcardProposals(input)).toThrow(
-        "Proposal at index 0 has empty front/back"
-      );
+      expect(() => parseFlashcardProposals(input)).toThrow("Proposal at index 0 has empty front/back");
     });
   });
 
@@ -386,33 +370,25 @@ describe("parseFlashcardProposals", () => {
     it("should reject missing proposals field", () => {
       const input = { data: [] };
 
-      expect(() => parseFlashcardProposals(input)).toThrow(
-        "AI response must include a proposals array"
-      );
+      expect(() => parseFlashcardProposals(input)).toThrow("AI response must include a proposals array");
     });
 
     it("should reject proposals as non-array", () => {
       const input = { proposals: "not an array" };
 
-      expect(() => parseFlashcardProposals(input)).toThrow(
-        "AI response must include a proposals array"
-      );
+      expect(() => parseFlashcardProposals(input)).toThrow("AI response must include a proposals array");
     });
 
     it("should reject proposals as null", () => {
       const input = { proposals: null };
 
-      expect(() => parseFlashcardProposals(input)).toThrow(
-        "AI response must include a proposals array"
-      );
+      expect(() => parseFlashcardProposals(input)).toThrow("AI response must include a proposals array");
     });
 
     it("should reject proposals as object instead of array", () => {
       const input = { proposals: { front: "Q", back: "A" } };
 
-      expect(() => parseFlashcardProposals(input)).toThrow(
-        "AI response must include a proposals array"
-      );
+      expect(() => parseFlashcardProposals(input)).toThrow("AI response must include a proposals array");
     });
 
     it("should reject empty proposals array", () => {
@@ -432,9 +408,7 @@ describe("parseFlashcardProposals", () => {
         proposals: ["invalid"],
       };
 
-      expect(() => parseFlashcardProposals(input)).toThrow(
-        "Proposal at index 0 must be an object"
-      );
+      expect(() => parseFlashcardProposals(input)).toThrow("Proposal at index 0 must be an object");
     });
 
     it("should reject null proposal", () => {
@@ -442,9 +416,7 @@ describe("parseFlashcardProposals", () => {
         proposals: [null],
       };
 
-      expect(() => parseFlashcardProposals(input)).toThrow(
-        "Proposal at index 0 must be an object"
-      );
+      expect(() => parseFlashcardProposals(input)).toThrow("Proposal at index 0 must be an object");
     });
 
     it("should reject proposal missing front field", () => {
@@ -452,9 +424,7 @@ describe("parseFlashcardProposals", () => {
         proposals: [{ back: "Answer" }],
       };
 
-      expect(() => parseFlashcardProposals(input)).toThrow(
-        "Proposal at index 0 must include string front and back"
-      );
+      expect(() => parseFlashcardProposals(input)).toThrow("Proposal at index 0 must include string front and back");
     });
 
     it("should reject proposal missing back field", () => {
@@ -462,9 +432,7 @@ describe("parseFlashcardProposals", () => {
         proposals: [{ front: "Question" }],
       };
 
-      expect(() => parseFlashcardProposals(input)).toThrow(
-        "Proposal at index 0 must include string front and back"
-      );
+      expect(() => parseFlashcardProposals(input)).toThrow("Proposal at index 0 must include string front and back");
     });
 
     it("should reject proposal with non-string front", () => {
@@ -472,9 +440,7 @@ describe("parseFlashcardProposals", () => {
         proposals: [{ front: 123, back: "Answer" }],
       };
 
-      expect(() => parseFlashcardProposals(input)).toThrow(
-        "Proposal at index 0 must include string front and back"
-      );
+      expect(() => parseFlashcardProposals(input)).toThrow("Proposal at index 0 must include string front and back");
     });
 
     it("should reject proposal with non-string back", () => {
@@ -482,9 +448,7 @@ describe("parseFlashcardProposals", () => {
         proposals: [{ front: "Question", back: true }],
       };
 
-      expect(() => parseFlashcardProposals(input)).toThrow(
-        "Proposal at index 0 must include string front and back"
-      );
+      expect(() => parseFlashcardProposals(input)).toThrow("Proposal at index 0 must include string front and back");
     });
 
     it("should include correct index in error message for second proposal", () => {
@@ -495,9 +459,7 @@ describe("parseFlashcardProposals", () => {
         ],
       };
 
-      expect(() => parseFlashcardProposals(input)).toThrow(
-        "Proposal at index 1 must include string front and back"
-      );
+      expect(() => parseFlashcardProposals(input)).toThrow("Proposal at index 1 must include string front and back");
     });
   });
 
@@ -515,9 +477,7 @@ describe("parseFlashcardProposals", () => {
         ],
       };
 
-      expect(() => parseFlashcardProposals(input)).toThrow(
-        "Proposal at index 1 has empty front/back"
-      );
+      expect(() => parseFlashcardProposals(input)).toThrow("Proposal at index 1 has empty front/back");
     });
 
     it("should process all valid proposals before encountering error", () => {
@@ -529,9 +489,7 @@ describe("parseFlashcardProposals", () => {
         ],
       };
 
-      expect(() => parseFlashcardProposals(input)).toThrow(
-        "Proposal at index 2 exceeds length limits"
-      );
+      expect(() => parseFlashcardProposals(input)).toThrow("Proposal at index 2 exceeds length limits");
     });
   });
 
@@ -556,7 +514,13 @@ describe("parseFlashcardProposals", () => {
 
     it("should ignore any source field in input", () => {
       const input = {
-        proposals: [{ front: "Question", back: "Answer", source: "manual" as any }],
+        proposals: [
+          {
+            front: "Question",
+            back: "Answer",
+            source: "manual" as unknown as "ai-full",
+          },
+        ],
       };
 
       const result = parseFlashcardProposals(input);
@@ -673,7 +637,7 @@ describe("parseFlashcardProposals", () => {
 
     it("should handle maximum valid scenario (10 proposals at max length)", () => {
       const input = {
-        proposals: Array.from({ length: 10 }, (_, i) => ({
+        proposals: Array.from({ length: 10 }, () => ({
           front: "Q".repeat(200),
           back: "A".repeat(500),
         })),

@@ -298,7 +298,7 @@ export class OpenRouterError extends Error {
     public type: OpenRouterErrorType,
     public statusCode?: number,
     public requestId?: string,
-    public retryable: boolean = false
+    public retryable = false
   ) {
     super(message);
     this.name = "OpenRouterError";

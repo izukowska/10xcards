@@ -14,18 +14,10 @@ interface ProposalEditorProps {
 const FRONT_MAX = 200;
 const BACK_MAX = 500;
 
-export function ProposalEditor({
-  initialFront,
-  initialBack,
-  onSave,
-  onCancel,
-  validateEdit,
-}: ProposalEditorProps) {
+export function ProposalEditor({ initialFront, initialBack, onSave, onCancel, validateEdit }: ProposalEditorProps) {
   const [front, setFront] = React.useState(initialFront);
   const [back, setBack] = React.useState(initialBack);
-  const [validationError, setValidationError] = React.useState<string | null>(
-    null
-  );
+  const [validationError, setValidationError] = React.useState<string | null>(null);
 
   const handleSave = () => {
     const error = validateEdit(front, back);
@@ -46,10 +38,7 @@ export function ProposalEditor({
   return (
     <div className="space-y-4">
       <div className="space-y-2">
-        <label
-          htmlFor="edit-front"
-          className="text-sm font-medium leading-none"
-        >
+        <label htmlFor="edit-front" className="text-sm font-medium leading-none">
           Przód fiszki
         </label>
         <input
@@ -93,9 +82,7 @@ export function ProposalEditor({
         </div>
       </div>
 
-      {validationError && (
-        <InlineAlert variant="error" message={validationError} />
-      )}
+      {validationError && <InlineAlert variant="error" message={validationError} />}
 
       <div className="flex gap-2">
         <Button onClick={handleSave} size="sm">

@@ -1,11 +1,5 @@
 import * as React from "react";
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-  CardContent,
-} from "@/components/ui/card";
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import type { FlashcardListResponseDto } from "@/types";
 
@@ -16,13 +10,13 @@ interface FlashcardsListProps {
 const sourceLabels = {
   "ai-full": "AI",
   "ai-edited": "AI (edytowano)",
-  "manual": "Ręcznie utworzona",
+  manual: "Ręcznie utworzona",
 };
 
 const sourceColors = {
   "ai-full": "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300",
   "ai-edited": "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300",
-  "manual": "bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-300",
+  manual: "bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-300",
 };
 
 export function FlashcardsList({ initialData }: FlashcardsListProps) {
@@ -37,7 +31,7 @@ export function FlashcardsList({ initialData }: FlashcardsListProps) {
 
     try {
       const response = await fetch(`/api/flashcards?page=${page}&limit=20`);
-      
+
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.message || "Nie udało się pobrać fiszek");
@@ -74,12 +68,7 @@ export function FlashcardsList({ initialData }: FlashcardsListProps) {
     return (
       <div className="rounded-lg border border-destructive/50 bg-destructive/10 p-4">
         <p className="text-sm text-destructive">{error}</p>
-        <Button 
-          onClick={() => fetchFlashcards(currentPage)} 
-          variant="outline" 
-          size="sm" 
-          className="mt-2"
-        >
+        <Button onClick={() => fetchFlashcards(currentPage)} variant="outline" size="sm" className="mt-2">
           Spróbuj ponownie
         </Button>
       </div>
@@ -104,9 +93,7 @@ export function FlashcardsList({ initialData }: FlashcardsListProps) {
           />
         </svg>
         <h3 className="mt-4 text-sm font-semibold">Brak fiszek</h3>
-        <p className="mt-2 text-sm text-muted-foreground">
-          Nie masz jeszcze żadnych zapisanych fiszek.
-        </p>
+        <p className="mt-2 text-sm text-muted-foreground">Nie masz jeszcze żadnych zapisanych fiszek.</p>
         <div className="mt-6">
           <Button asChild>
             <a href="/generate">Wygeneruj fiszki</a>
@@ -135,9 +122,7 @@ export function FlashcardsList({ initialData }: FlashcardsListProps) {
           <Card key={flashcard.id}>
             <CardHeader>
               <div className="flex items-start justify-between gap-4">
-                <CardTitle className="text-base break-words flex-1">
-                  {flashcard.front}
-                </CardTitle>
+                <CardTitle className="text-base break-words flex-1">{flashcard.front}</CardTitle>
                 <span
                   className={`text-xs font-medium px-2 py-1 rounded-md shrink-0 ${
                     sourceColors[flashcard.source as keyof typeof sourceColors]
@@ -148,9 +133,7 @@ export function FlashcardsList({ initialData }: FlashcardsListProps) {
               </div>
             </CardHeader>
             <CardContent>
-              <CardDescription className="text-sm whitespace-pre-wrap break-words">
-                {flashcard.back}
-              </CardDescription>
+              <CardDescription className="text-sm whitespace-pre-wrap break-words">{flashcard.back}</CardDescription>
               <div className="mt-4 text-xs text-muted-foreground">
                 Utworzono:{" "}
                 {new Date(flashcard.created_at).toLocaleDateString("pl-PL", {

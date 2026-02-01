@@ -17,12 +17,7 @@ export function GenerateView() {
     validationError: null,
   });
 
-  const {
-    status,
-    proposals: generatedProposals,
-    error: apiError,
-    generateFlashcards,
-  } = useGeneration();
+  const { status, proposals: generatedProposals, error: apiError, generateFlashcards } = useGeneration();
 
   const {
     proposals,
@@ -103,9 +98,7 @@ export function GenerateView() {
 
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
-        throw new Error(
-          errorData.message || `Błąd HTTP: ${response.status}`
-        );
+        throw new Error(errorData.message || `Błąd HTTP: ${response.status}`);
       }
 
       markSaved(proposalsToSave.map((proposal) => proposal.id));
@@ -116,9 +109,7 @@ export function GenerateView() {
       }, 3000);
     } catch (error) {
       setSaveError(
-        error instanceof Error
-          ? error.message
-          : "Wystąpił błąd podczas zapisywania fiszek. Spróbuj ponownie."
+        error instanceof Error ? error.message : "Wystąpił błąd podczas zapisywania fiszek. Spróbuj ponownie."
       );
     } finally {
       setIsSaving(false);
@@ -126,9 +117,7 @@ export function GenerateView() {
   };
 
   const handleSaveAccepted = async () => {
-    const acceptedProposals = proposals.filter(
-      (p) => p.decision === "accepted" || p.decision === "edited"
-    );
+    const acceptedProposals = proposals.filter((p) => p.decision === "accepted" || p.decision === "edited");
 
     await saveProposals(acceptedProposals);
   };
@@ -145,12 +134,9 @@ export function GenerateView() {
     <div className="container mx-auto px-4 py-8 max-w-4xl">
       <div className="space-y-8">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">
-            Generowanie fiszek
-          </h1>
+          <h1 className="text-3xl font-bold tracking-tight">Generowanie fiszek</h1>
           <p className="text-muted-foreground mt-2">
-            Wklej tekst źródłowy, aby automatycznie wygenerować propozycje
-            fiszek przy pomocy AI.
+            Wklej tekst źródłowy, aby automatycznie wygenerować propozycje fiszek przy pomocy AI.
           </p>
         </div>
 
@@ -164,12 +150,7 @@ export function GenerateView() {
 
         {apiError && <InlineAlert variant="error" message={apiError} />}
         {saveError && <InlineAlert variant="error" message={saveError} />}
-        {saveSuccess && (
-          <InlineAlert
-            variant="success"
-            message="Fiszki zostały pomyślnie zapisane!"
-          />
-        )}
+        {saveSuccess && <InlineAlert variant="success" message="Fiszki zostały pomyślnie zapisane!" />}
 
         <GenerationStatus
           status={status.status}

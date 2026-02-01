@@ -33,12 +33,16 @@ export const onRequest = defineMiddleware(async (context, next) => {
   const isPublicRoute = publicRoutes.some((route) => {
     return context.url.pathname === route || context.url.pathname.startsWith(route + "/");
   });
-  
+
   // Also treat API routes as public or handle them separately?
   // Usually /api/auth/* needs to be accessible.
   // And assets/images etc.
-  if (context.url.pathname.startsWith("/api/") || context.url.pathname.startsWith("/_image") || context.url.pathname.includes(".")) {
-      return next();
+  if (
+    context.url.pathname.startsWith("/api/") ||
+    context.url.pathname.startsWith("/_image") ||
+    context.url.pathname.includes(".")
+  ) {
+    return next();
   }
 
   // Auth Guard

@@ -1,6 +1,6 @@
 import type { APIRoute } from "astro";
 import { z } from "zod";
-import type { FlashcardCreateCommand, FlashcardDto, FlashcardListResponseDto } from "../../types";
+import type { FlashcardCreateCommand, FlashcardListResponseDto } from "../../types";
 import { createFlashcards } from "../../lib/services/flashcard.service";
 
 export const prerender = false;
@@ -84,7 +84,7 @@ export const GET: APIRoute = async ({ url, locals }) => {
   try {
     // Step 1: Authentication check
     const { user, supabase } = locals;
-    
+
     if (!user) {
       return new Response(
         JSON.stringify({
@@ -163,7 +163,8 @@ export const GET: APIRoute = async ({ url, locals }) => {
     // eslint-disable-next-line no-console
     console.error("Error fetching flashcards:", error);
 
-    const errorMessage = error instanceof Error ? error.message : "An unexpected error occurred while fetching flashcards";
+    const errorMessage =
+      error instanceof Error ? error.message : "An unexpected error occurred while fetching flashcards";
 
     return new Response(
       JSON.stringify({
@@ -215,7 +216,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
   try {
     // Step 1: Authentication check
     const { user, supabase } = locals;
-    
+
     if (!user) {
       return new Response(
         JSON.stringify({
@@ -250,7 +251,9 @@ export const POST: APIRoute = async ({ request, locals }) => {
     const validationResult = flashcardCreateCommandSchema.safeParse(body);
 
     if (!validationResult.success) {
-      const errorMessages = validationResult.error.errors.map((err) => `${err.path.join(".")}: ${err.message}`).join(", ");
+      const errorMessages = validationResult.error.errors
+        .map((err) => `${err.path.join(".")}: ${err.message}`)
+        .join(", ");
 
       return new Response(
         JSON.stringify({
@@ -317,7 +320,8 @@ export const POST: APIRoute = async ({ request, locals }) => {
     }
 
     // Generic error response
-    const errorMessage = error instanceof Error ? error.message : "An unexpected error occurred during flashcard creation";
+    const errorMessage =
+      error instanceof Error ? error.message : "An unexpected error occurred during flashcard creation";
 
     return new Response(
       JSON.stringify({

@@ -1,9 +1,5 @@
 import * as React from "react";
-import type {
-  GenerationStatusState,
-  ProposalViewModel,
-  GenerationCreateResponseDto,
-} from "@/types";
+import type { GenerationStatusState, ProposalViewModel, GenerationCreateResponseDto } from "@/types";
 
 interface UseGenerationResult {
   status: GenerationStatusState;
@@ -36,25 +32,21 @@ export function useGeneration(): UseGenerationResult {
 
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
-        throw new Error(
-          errorData.message || `Błąd HTTP: ${response.status}`
-        );
+        throw new Error(errorData.message || `Błąd HTTP: ${response.status}`);
       }
 
       const data: GenerationCreateResponseDto = await response.json();
 
       // Map proposals to ViewModel with local UUIDs
-      const proposalViewModels: ProposalViewModel[] = data.proposals.map(
-        (proposal) => ({
-          id: crypto.randomUUID(),
-          front: proposal.front,
-          back: proposal.back,
-          source: "ai-full" as const,
-          decision: "pending" as const,
-          isEditing: false,
-          generation_id: data.generation_id,
-        })
-      );
+      const proposalViewModels: ProposalViewModel[] = data.proposals.map((proposal) => ({
+        id: crypto.randomUUID(),
+        front: proposal.front,
+        back: proposal.back,
+        source: "ai-full" as const,
+        decision: "pending" as const,
+        isEditing: false,
+        generation_id: data.generation_id,
+      }));
 
       setProposals(proposalViewModels);
       setStatus({
@@ -64,16 +56,11 @@ export function useGeneration(): UseGenerationResult {
       });
 
       if (data.generated_count === 0) {
-        setError(
-          "Nie udało się wygenerować żadnych fiszek. Spróbuj ponownie z innym tekstem."
-        );
+        setError("Nie udało się wygenerować żadnych fiszek. Spróbuj ponownie z innym tekstem.");
       }
     } catch (err) {
-      const errorMessage =
-        err instanceof Error
-          ? err.message
-          : "Wystąpił nieoczekiwany błąd. Spróbuj ponownie.";
-      
+      const errorMessage = err instanceof Error ? err.message : "Wystąpił nieoczekiwany błąd. Spróbuj ponownie.";
+
       setStatus({ status: "error", message: errorMessage });
       setError(errorMessage);
     }

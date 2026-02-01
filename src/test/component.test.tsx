@@ -1,5 +1,5 @@
-import { test, expect, vi, describe } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import { test, expect, vi, describe } from "vitest";
+import { render, screen } from "@testing-library/react";
 
 /**
  * Example React component test using Vitest and Testing Library
@@ -14,22 +14,22 @@ function Button({ onClick, children }: { onClick: () => void; children: React.Re
   );
 }
 
-describe('Button Component', () => {
-  test('renders button with text', () => {
-    const handleClick = () => {};
+describe("Button Component", () => {
+  test("renders button with text", () => {
+    const handleClick = vi.fn();
     render(<Button onClick={handleClick}>Click me</Button>);
-    
-    const button = screen.getByRole('button', { name: /click me/i });
+
+    const button = screen.getByRole("button", { name: /click me/i });
     expect(button).toBeInTheDocument();
   });
 
-  test('calls onClick when clicked', async () => {
+  test("calls onClick when clicked", async () => {
     const handleClick = vi.fn();
-    const { container } = render(<Button onClick={handleClick}>Click me</Button>);
-    
-    const button = screen.getByRole('button', { name: /click me/i });
+    render(<Button onClick={handleClick}>Click me</Button>);
+
+    const button = screen.getByRole("button", { name: /click me/i });
     button.click();
-    
+
     expect(handleClick).toHaveBeenCalledTimes(1);
   });
 });

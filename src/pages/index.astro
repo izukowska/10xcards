@@ -1,6 +1,5 @@
 ---
 import "../styles/global.css";
-import { Button } from "@/components/ui/button";
 
 export const prerender = false;
 
@@ -22,7 +21,10 @@ if (user) {
     <style>
       body {
         margin: 0;
-        font-family: system-ui, -apple-system, sans-serif;
+        font-family:
+          system-ui,
+          -apple-system,
+          sans-serif;
         background-color: #09090b;
         color: #fafafa;
         display: flex;
@@ -48,7 +50,7 @@ if (user) {
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
       }
-      p      .subtitle {
+      p .subtitle {
         font-size: 1.25rem;
         color: #a1a1aa;
         max-width: 600px;
@@ -99,10 +101,9 @@ if (user) {
       <p class="project-info">Projekt zaliczeniowy Izabela Żukowska</p>
       <h1>10x-cards</h1>
       <p class="subtitle">
-        Twórz fiszki 10x szybciej dzięki sztucznej inteligencji. 
-        Wklej tekst, a my zajmiemy się resztą.
+        Twórz fiszki 10x szybciej dzięki sztucznej inteligencji. Wklej tekst, a my zajmiemy się resztą.
       </p>
-      
+
       <div class="actions">
         <a href="/login" class="btn btn-primary" data-testid="home-login-button">Zaloguj się</a>
         <a href="/register" class="btn btn-outline" data-testid="home-register-button">Załóż konto</a>

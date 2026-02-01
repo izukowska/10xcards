@@ -5,14 +5,7 @@ import * as z from "zod";
 import { forgotPasswordSchema } from "../../lib/validation/auth";
 import { createBrowserClient } from "../../lib/supabase";
 import { Button } from "../ui/button";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "../ui/form";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../ui/form";
 import { Input } from "../ui/input";
 import { Alert, AlertDescription, AlertTitle } from "../ui/alert";
 import { Loader2, AlertCircle, CheckCircle } from "lucide-react";
@@ -44,8 +37,8 @@ export const ForgotPasswordForm = () => {
       }
 
       setSuccess(true);
-    } catch (e: any) {
-      setError(e.message || "Wystąpił błąd podczas wysyłania linku");
+    } catch (e: unknown) {
+      setError(e instanceof Error ? e.message : "Wystąpił błąd podczas wysyłania linku");
     } finally {
       setIsLoading(false);
     }
@@ -58,9 +51,7 @@ export const ForgotPasswordForm = () => {
           <CheckCircle className="h-12 w-12 text-green-500" />
         </div>
         <h3 className="text-lg font-medium">Link wysłany!</h3>
-        <p className="text-sm text-gray-500">
-          Sprawdź swoją skrzynkę email, aby zresetować hasło.
-        </p>
+        <p className="text-sm text-gray-500">Sprawdź swoją skrzynkę email, aby zresetować hasło.</p>
         <Button asChild className="w-full mt-4">
           <a href="/login">Wróć do logowania</a>
         </Button>
@@ -99,7 +90,7 @@ export const ForgotPasswordForm = () => {
           </Button>
         </form>
       </Form>
-      
+
       <div className="text-center text-sm">
         <a href="/login" className="text-blue-600 hover:underline">
           Wróć do logowania

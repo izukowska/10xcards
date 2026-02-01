@@ -2,6 +2,6 @@
  * Page Object Model exports
  * Central export point for all page objects
  */
-export { LoginPage } from './LoginPage';
-export { RegisterPage } from './RegisterPage';
-export { HomePage } from './HomePage';
+export { LoginPage } from "./LoginPage";
+export { RegisterPage } from "./RegisterPage";
+export { HomePage } from "./HomePage";

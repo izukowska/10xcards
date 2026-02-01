@@ -37,7 +37,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
   try {
     // Step 1: Authentication check
     const { user, supabase } = locals;
-    
+
     if (!user) {
       return new Response(
         JSON.stringify({

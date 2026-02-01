@@ -28,43 +28,41 @@ const currentPath = Astro.url.pathname;
             <a href="/" class="text-xl font-bold tracking-tight text-foreground">10x-cards</a>
           </div>
           <div class="flex items-center gap-3">
-            {user && (
-              <nav class="flex items-center gap-2 mr-4">
-                <a 
-                  href="/generate" 
-                  class={`
+            {
+              user && (
+                <nav class="flex items-center gap-2 mr-4">
+                  <a
+                    href="/generate"
+                    class={`
                     px-4 py-2 rounded-lg text-sm font-medium transition-all
-                    ${currentPath === '/generate' 
-                      ? 'bg-primary text-primary-foreground shadow-md' 
-                      : 'bg-primary/10 text-primary hover:bg-primary/20 border border-primary/20'
+                    ${
+                      currentPath === "/generate"
+                        ? "bg-primary text-primary-foreground shadow-md"
+                        : "bg-primary/10 text-primary hover:bg-primary/20 border border-primary/20"
                     }
                   `}
-                >
-                  Generuj
-                </a>
-                <a 
-                  href="/flashcards" 
-                  class={`
+                  >
+                    Generuj
+                  </a>
+                  <a
+                    href="/flashcards"
+                    class={`
                     px-4 py-2 rounded-lg text-sm font-medium transition-all
-                    ${currentPath === '/flashcards' 
-                      ? 'bg-primary text-primary-foreground shadow-md' 
-                      : 'bg-primary/10 text-primary hover:bg-primary/20 border border-primary/20'
+                    ${
+                      currentPath === "/flashcards"
+                        ? "bg-primary text-primary-foreground shadow-md"
+                        : "bg-primary/10 text-primary hover:bg-primary/20 border border-primary/20"
                     }
                   `}
-                >
-                  Moje fiszki
-                </a>
-              </nav>
-            )}
-            {user?.email && (
-              <span class="text-sm text-muted-foreground hidden sm:inline-block">
-                {user.email}
-              </span>
-            )}
+                  >
+                    Moje fiszki
+                  </a>
+                </nav>
+              )
+            }
+            {user?.email && <span class="text-sm text-muted-foreground hidden sm:inline-block">{user.email}</span>}
             <form action="/api/auth/signout" method="POST">
-              <Button variant="ghost" size="sm" type="submit">
-                Wyloguj
-              </Button>
+              <Button variant="ghost" size="sm" type="submit"> Wyloguj </Button>
             </form>
           </div>
         </div>
